@@ -48,7 +48,7 @@ const getRandom = (max: number) => {
 
 const FooterLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement> & { special?: boolean }) => {
 	const linkRef = createRef<HTMLAnchorElement>()
-	
+
 	const onHover = (e: MouseEvent) => {
 		if (!linkRef.current || !props.special) return
 		const link = linkRef.current
@@ -64,9 +64,9 @@ const FooterLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement> & { spe
 		link.style.left = getRandom(document.body.clientWidth - boundingBox.width) + 'px'
 		link.style.top = getRandom(document.body.clientHeight - 108 - boundingBox.height) + 108 + 'px'
 	}
-	
+
 	return (
-		<RootFooterLink {...props} data-no-global-style onMouseOver={onHover as any} onClick={() => alert('good job 👍')} ref={linkRef} />
+		<RootFooterLink {...props} data-no-global-style onMouseOver={onHover as any} onClick={props.special ? () => alert('good job 👍') : undefined} ref={linkRef} />
 	)
 }
 
