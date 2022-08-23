@@ -144,6 +144,19 @@ const RootHeroButton = styled('button', {
 				fontSize: '1rem',
 			},
 		},
+		icon: {
+			true: {
+				borderRadius: 8,
+				width: 44,
+				height: 44,
+				padding: 0,
+
+				'&:hover::before': {
+					width: '300%',
+					paddingTop: '300%',
+				},
+			}
+		}
 	},
 });
 

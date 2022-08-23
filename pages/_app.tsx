@@ -8,6 +8,7 @@ import { globalStyles } from 'styles/stitches';
 
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import Footer from 'components/Footer';
 
 const scrollListener = () => {
 	if (typeof document == 'undefined') return;
@@ -119,6 +120,8 @@ function App({ Component, pageProps }: AppProps) {
 			<Appbar />
 
 			<Component {...pageProps} />
+
+			<Footer />
 		</>
 	);
 }
