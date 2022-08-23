@@ -2,8 +2,8 @@ import React from 'react';
 
 export type MetaProps = {
 	name?: string;
-	ogpName?: string;
-	twitterName?: string;
+	ogpName?: '^' | string;
+	twitterName?: '^' | string;
 	content: string;
 };
 
