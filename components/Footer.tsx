@@ -126,7 +126,7 @@ export default function Footer() {
 						Inspiration
 					</FooterLink>
 					<FooterLink>
-						How it's built
+						How it&apos;s built
 					</FooterLink>
 				</FooterSection>
 				<FooterSection>
