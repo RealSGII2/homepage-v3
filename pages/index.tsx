@@ -2,6 +2,7 @@ import type { CSS } from '@stitches/react';
 import Box from 'components/Box';
 import Title from 'components/head/Title';
 import HeroButton from 'components/HeroButton';
+import Status from 'components/Status';
 import Text from 'components/Text';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -40,7 +41,7 @@ const Home: NextPage = () => {
 						like to build things that allow others to do things.
 					</Text.HeroText>
 
-					<Box row style={{ marginTop: '2rem' }}>
+					<Box row style={{ marginBlock: '2rem' }}>
 						<HeroButton onClick={() => {}}>
 							<span>Get in contact</span>
 						</HeroButton>
@@ -48,6 +49,8 @@ const Home: NextPage = () => {
 							<span>More about me</span>
 						</HeroButton>
 					</Box>
+
+					<Status />
 				</Box>
 			</Box>
 

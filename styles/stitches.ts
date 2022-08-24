@@ -94,12 +94,12 @@ export const globalStyles = globalCss({
 		'-webkit-tap-highlight-color': 'transparent',
 	},
 
-	'a:not([data-no-global-style])': {
-		color: '$brand',
-		textDecoration: 'none',
+	// 'a:not([data-no-global-style])': {
+	// 	color: '$brand',
+	// 	textDecoration: 'none',
 
-		boxShadow: '0 2px $colors$brandSubtle',
-	},
+	// 	boxShadow: '0 2px $colors$brandSubtle',
+	// },
 
 	'::selection': {
 		backgroundColor: '$brandDefault',
