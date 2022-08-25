@@ -11,7 +11,10 @@
 	"dependencies": {
 		"@stitches/react": "^1.2.8",
 		"axios": "^0.27.2",
+		"gray-matter": "^4.0.3",
 		"next": "12.2.5",
+		"next-mdx-remote": "^4.1.0",
+		"next-remote-watch": "^1.0.0",
 		"react": "18.2.0",
 		"react-dom": "18.2.0"
 	},

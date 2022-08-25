@@ -9,6 +9,7 @@ import { globalStyles } from 'styles/stitches';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Footer from 'components/Footer';
+import Router from 'next/router';
 
 const scrollListener = () => {
 	if (typeof document == 'undefined') return;
@@ -24,7 +25,14 @@ const scrollListener = () => {
 			Math.min(Math.max(Math.round(document.body.scrollTop) / 240, 0), 1)
 		}; --scroll-factor-viewport: ${
 			1 -
-			Math.min(Math.max(Math.round(document.body.scrollTop) / document.body.clientHeight, 0), 1)
+			Math.min(
+				Math.max(
+					Math.round(document.body.scrollTop) /
+						document.body.clientHeight,
+					0
+				),
+				1
+			)
 		}`
 	);
 };
@@ -35,6 +43,22 @@ function App({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		if (typeof document == 'undefined') return;
+
+		Router.events.on('routeChangeComplete', () => {
+			document.body.removeAttribute('data-loading');
+
+			// The blog page has the ability to change the background using `--custom-background`
+			// Because of Next's client side routing, the style will remain even if the route changes
+			// We do this to clear that if the route changes.
+			if (Router.pathname.indexOf('/blog/') !== -1) return;
+			document
+				.querySelector('html')
+				?.removeAttribute('data-show-custom-background');
+		});
+
+		Router.events.on('routeChangeStart', () => {
+			document.body.setAttribute('data-loading', 'data-loading')
+		});
 
 		document.body.addEventListener('scroll', scrollListener);
 

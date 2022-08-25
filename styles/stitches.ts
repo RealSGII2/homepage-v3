@@ -44,6 +44,24 @@ export const {
 	},
 });
 
+const backgroundOutKeyframes = keyframes({
+	from: {
+		opacity: `calc(0.25 * ${viewportScrollFactor})`,
+	},
+	to: {
+		opacity: 0,
+	},
+});
+
+const backgroundInKeyframes = keyframes({
+	from: {
+		opacity: 0,
+	},
+	to: {
+		opacity: `calc(0.25 * ${viewportScrollFactor})`,
+	},
+});
+
 export const globalStyles = globalCss({
 	'@import':
 		"url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&display=swap')",
@@ -67,7 +85,7 @@ export const globalStyles = globalCss({
 
 		overflowY: 'auto',
 
-		'&::before': {
+		'&::before, &::after': {
 			content: '',
 			position: 'absolute',
 
@@ -76,15 +94,33 @@ export const globalStyles = globalCss({
 			right: 0,
 			bottom: 0,
 
-			backgroundImage:
-				"linear-gradient(to bottom, rgba(37, 42, 52, 0.75) 0%, transparent 20%), url('/trees.jpeg')",
-			backgroundPosition: 'left',
-
 			zIndex: -1,
 
-			opacity: `calc(0.25 * ${viewportScrollFactor})`,
-
 			transform: `translateY(calc((1 - ${viewportScrollFactor}) * -180px))`,
+
+			animation: `350ms forwards`,
+		},
+
+		'&::before': {
+			backgroundImage: "url('/trees.jpeg')",
+			backgroundPosition: 'left',
+			animationName: backgroundInKeyframes,
+			opacity: `calc(0.25 * ${viewportScrollFactor})`,
+		},
+
+		'&::after': {
+			backgroundImage: 'var(--custom-background)',
+			backgroundPosition: 'center center',
+			animationName: backgroundOutKeyframes,
+		},
+	},
+
+	'html[data-show-custom-background] body': {
+		'&::before': {
+			animationName: backgroundOutKeyframes,
+		},
+		'&::after': {
+			animationName: backgroundInKeyframes,
 		},
 	},
 
@@ -104,6 +140,6 @@ export const globalStyles = globalCss({
 	'::selection': {
 		backgroundColor: '$brandDefault',
 		backgroundImage: brandGradient,
-		color: '$bgDefault'
+		color: '$bgDefault',
 	},
 });

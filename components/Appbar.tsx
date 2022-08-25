@@ -1,9 +1,45 @@
 import Link from 'next/link';
 import React from 'react';
-import { contentWidth, styled } from 'styles/stitches';
+import { contentWidth, keyframes, styled } from 'styles/stitches';
 import HeroButton from './HeroButton';
 
 const scrollFactor = 'var(--scroll-factor, 1)';
+
+const fadeFlashKeyframes = keyframes({
+	'30%': {
+		opacity: 1,
+	},
+	'50%': {
+		opacity: 0.5,
+	},
+	'70%': {
+		opacity: 1,
+	},
+});
+
+const jumpKeyframes = keyframes({
+	from: {
+		transform: 'scale(1)',
+	},
+	'20%': {
+		transform: 'scale(0.9)',
+	},
+	'50%': {
+		transform: 'scale(1.1)',
+	},
+	'70%': {
+		transform: 'scale(1)',
+	},
+});
+
+const spinKeyframes = keyframes({
+	from: {
+		transform: 'rotate(0deg)',
+	},
+	to: {
+		transform: 'rotate(360deg)',
+	},
+});
 
 const AppbarRoot = styled('nav', {
 	position: 'sticky',
@@ -21,6 +57,58 @@ const AppbarRoot = styled('nav', {
 	borderBottom: `solid 1px rgb($colors$borderRGB, calc(1 - ${scrollFactor}))`,
 	backgroundColor: `rgb($bgOverlayRGB, calc(0.75 * (1 - ${scrollFactor})))`,
 	backdropFilter: `blur(calc(12px * (1 - ${scrollFactor})))`,
+
+	'body & svg:first-child': {
+		marginRight: 8,
+
+		'& path': {
+			transition: '135ms ease-out',
+			transformOrigin: '50% 50%',
+		}
+	},
+
+	'body & svg:first-child path:last-child': {
+		opacity: 0,
+	},
+
+	'body[data-loading] & svg:first-child': {
+		// animation: `${jumpKeyframes} 1000ms infinite`,
+
+		'& path:first-child': {
+			opacity: 0,
+		},
+
+		'& path:last-child': {
+			opacity: 1,
+			animation: `${spinKeyframes} 1000ms infinite 40ms`,
+		},
+	},
+
+	'body[data-loading] & svg:last-child': {
+		'& path': {
+			animation: `${fadeFlashKeyframes} 1000ms infinite`,
+
+			'&:nth-child(2)': {
+				animationDelay: '100ms',
+			},
+
+			'&:nth-child(3)': {
+				animationDelay: '200ms',
+			},
+
+			'&:nth-child(4)': {
+				animationDelay: '300ms',
+			},
+
+			'&:nth-child(5)': {
+				animationDelay: '400ms',
+			},
+
+			'&:nth-child(6)': {
+				animationDelay: '500ms',
+			},
+		},
+	},
 
 	'> section': {
 		width: '100%',
@@ -66,25 +154,34 @@ export default function Appbar() {
 			<section>
 				<section>
 					<Link href="/">
-						<a data-no-global-style="data-no-global-style" style={{ display: 'inline-block', height: 36 }}>
+						<a
+							data-no-global-style="data-no-global-style"
+							style={{ display: 'inline-block', height: 36 }}
+						>
 							<svg
-								viewBox="0 0 46 12"
+								width="36"
+								height="36"
+								viewBox="0 0 12 12"
 								fill="none"
 								xmlns="http://www.w3.org/2000/svg"
 							>
-								<path
-									fillRule="evenodd"
-									clipRule="evenodd"
-									d="M12 0H0V12H12V0ZM2 4L3.6858 9H4.90726L5.99747 5.75002L7.09274 9H8.31419L10 4H8.79369L7.69581 7.22727L6.60819 4H5.3918L4.29483 7.21506L3.20631 4H2Z"
-									fill="url(#paint0_linear_5_2)"
-								/>
-								<path
-									d="M15.192 5H16.248L16.736 8.088H16.928L17.536 5.08H18.64L19.248 8.088H19.44L19.928 5H20.984L20.224 9H18.544L18.088 6.552L17.632 9H15.952L15.192 5ZM21.3717 5H22.4277L22.9157 8.088H23.1077L23.7157 5.08H24.8197L25.4277 8.088H25.6197L26.1077 5H27.1637L26.4037 9H24.7237L24.2677 6.552L23.8117 9H22.1317L21.3717 5ZM27.8554 9V5H28.9274V9H27.8554ZM27.8554 4.488V3.4H28.9274V4.488H27.8554ZM32.7899 6C32.1285 5.91467 31.6645 5.872 31.3979 5.872C31.1365 5.872 30.9659 5.896 30.8859 5.944C30.8112 5.992 30.7739 6.06933 30.7739 6.176C30.7739 6.27733 30.8245 6.34933 30.9259 6.392C31.0325 6.42933 31.2992 6.488 31.7259 6.568C32.1579 6.64267 32.4645 6.768 32.6459 6.944C32.8272 7.12 32.9179 7.40533 32.9179 7.8C32.9179 8.664 32.3819 9.096 31.3099 9.096C30.9579 9.096 30.5312 9.048 30.0299 8.952L29.7739 8.904L29.8059 8.008C30.4672 8.09333 30.9259 8.136 31.1819 8.136C31.4432 8.136 31.6192 8.112 31.7099 8.064C31.8059 8.01067 31.8539 7.93333 31.8539 7.832C31.8539 7.73067 31.8032 7.656 31.7019 7.608C31.6059 7.56 31.3499 7.50133 30.9339 7.432C30.5232 7.36267 30.2165 7.24533 30.0139 7.08C29.8112 6.91467 29.7099 6.62133 29.7099 6.2C29.7099 5.77333 29.8539 5.45333 30.1419 5.24C30.4299 5.02133 30.8005 4.912 31.2539 4.912C31.5685 4.912 31.9979 4.96267 32.5419 5.064L32.8059 5.112L32.7899 6ZM34.5713 7.456C34.5766 7.70133 34.6406 7.88 34.7633 7.992C34.8913 8.09867 35.0726 8.152 35.3073 8.152C35.8033 8.152 36.246 8.136 36.6353 8.104L36.8593 8.08L36.8753 8.872C36.262 9.02133 35.7073 9.096 35.2113 9.096C34.6086 9.096 34.1713 8.936 33.8993 8.616C33.6273 8.296 33.4913 7.776 33.4913 7.056C33.4913 5.62133 34.0806 4.904 35.2593 4.904C36.422 4.904 37.0033 5.50667 37.0033 6.712L36.9233 7.456H34.5713ZM35.9473 6.64C35.9473 6.32 35.8966 6.09867 35.7953 5.976C35.694 5.848 35.5153 5.784 35.2593 5.784C35.0086 5.784 34.83 5.85067 34.7233 5.984C34.622 6.112 34.5686 6.33067 34.5633 6.64H35.9473Z"
-									fill="#ADBAC7"
-								/>
+								<g clipPath="url(#clip0_120_12)">
+									<path
+										fillRule="evenodd"
+										clipRule="evenodd"
+										d="M12 0H0V12H12V0ZM2 4L3.6858 9H4.90726L5.99747 5.75002L7.09274 9H8.31419L10 4H8.79369L7.69581 7.22727L6.60819 4H5.3918L4.29483 7.21506L3.20631 4H2Z"
+										fill="url(#paint0_linear_120_12)"
+									/>
+									<path
+										d="M6 10C3.79086 10 2 8.20914 2 6C2 3.79086 3.79086 2 6 2"
+										stroke="#99D5CB"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									/>
+								</g>
 								<defs>
 									<linearGradient
-										id="paint0_linear_5_2"
+										id="paint0_linear_120_12"
 										x1="12"
 										y1="0"
 										x2="0"
@@ -101,6 +198,53 @@ export default function Appbar() {
 											stopColor="#6ABFD3"
 										/>
 									</linearGradient>
+									<clipPath id="clip0_120_12">
+										<rect
+											width="12"
+											height="12"
+											fill="white"
+										/>
+									</clipPath>
+								</defs>
+							</svg>
+
+							<svg
+								width="66"
+								height="36"
+								viewBox="0 0 22 12"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<g clipPath="url(#clip0_120_2)">
+									<path
+										d="M0.192017 5H1.24802L1.73602 8.088H1.92802L2.53602 5.08H3.64002L4.24802 8.088H4.44002L4.92802 5H5.98402L5.22402 9H3.54402L3.08802 6.552L2.63202 9H0.952017L0.192017 5Z"
+										fill="#ADBAC7"
+									/>
+									<path
+										d="M6.3717 5H7.4277L7.9157 8.088H8.1077L8.7157 5.08H9.8197L10.4277 8.088H10.6197L11.1077 5H12.1637L11.4037 9H9.7237L9.2677 6.552L8.8117 9H7.1317L6.3717 5Z"
+										fill="#ADBAC7"
+									/>
+									<path
+										d="M12.8555 9V5H13.9275V9H12.8555ZM12.8555 4.488V3.4H13.9275V4.488H12.8555Z"
+										fill="#ADBAC7"
+									/>
+									<path
+										d="M17.79 6C17.1286 5.91467 16.6646 5.872 16.398 5.872C16.1366 5.872 15.966 5.896 15.886 5.944C15.8113 5.992 15.774 6.06934 15.774 6.176C15.774 6.27734 15.8246 6.34934 15.926 6.392C16.0326 6.42934 16.2993 6.488 16.726 6.568C17.158 6.64267 17.4646 6.768 17.646 6.944C17.8273 7.12 17.918 7.40534 17.918 7.8C17.918 8.664 17.382 9.096 16.31 9.096C15.958 9.096 15.5313 9.048 15.03 8.952L14.774 8.904L14.806 8.008C15.4673 8.09334 15.926 8.136 16.182 8.136C16.4433 8.136 16.6193 8.112 16.71 8.064C16.806 8.01067 16.854 7.93334 16.854 7.832C16.854 7.73067 16.8033 7.656 16.702 7.608C16.606 7.56 16.35 7.50134 15.934 7.432C15.5233 7.36267 15.2166 7.24534 15.014 7.08C14.8113 6.91467 14.71 6.62134 14.71 6.2C14.71 5.77334 14.854 5.45334 15.142 5.24C15.43 5.02134 15.8006 4.912 16.254 4.912C16.5686 4.912 16.998 4.96267 17.542 5.064L17.806 5.112L17.79 6Z"
+										fill="#ADBAC7"
+									/>
+									<path
+										d="M19.5713 7.456C19.5767 7.70134 19.6407 7.88 19.7633 7.992C19.8913 8.09867 20.0727 8.152 20.3073 8.152C20.8033 8.152 21.246 8.136 21.6353 8.104L21.8593 8.08L21.8753 8.872C21.262 9.02134 20.7073 9.096 20.2113 9.096C19.6087 9.096 19.1713 8.936 18.8993 8.616C18.6273 8.296 18.4913 7.776 18.4913 7.056C18.4913 5.62134 19.0807 4.904 20.2593 4.904C21.422 4.904 22.0033 5.50667 22.0033 6.712L21.9233 7.456H19.5713ZM20.9473 6.64C20.9473 6.32 20.8967 6.09867 20.7953 5.976C20.694 5.848 20.5153 5.784 20.2593 5.784C20.0087 5.784 19.83 5.85067 19.7233 5.984C19.622 6.112 19.5687 6.33067 19.5633 6.64H20.9473Z"
+										fill="#ADBAC7"
+									/>
+								</g>
+								<defs>
+									<clipPath id="clip0_120_2">
+										<rect
+											width="22"
+											height="12"
+											fill="white"
+										/>
+									</clipPath>
 								</defs>
 							</svg>
 						</a>
@@ -114,9 +258,11 @@ export default function Appbar() {
 					<HeroButton small tertiary>
 						<span>Projects</span>
 					</HeroButton>
-					<HeroButton small tertiary>
-						<span>Uses</span>
-					</HeroButton>
+					<Link href="/blog">
+						<HeroButton as="a" small tertiary>
+							<span>Blog</span>
+						</HeroButton>
+					</Link>
 				</section>
 
 				<section>
