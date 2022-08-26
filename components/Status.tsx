@@ -145,7 +145,7 @@ export default function Status({
 		setInterval(updateStatus, 30000);
 
 		updateStatus();
-	}, []);
+	}, [overrideState]);
 
 	let content = (
 		<>
