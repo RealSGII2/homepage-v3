@@ -11,6 +11,8 @@ import Head from 'next/head';
 import Footer from 'components/Footer';
 import Router from 'next/router';
 
+import 'styles/code.scss'
+
 const scrollListener = () => {
 	if (typeof document == 'undefined') return;
 

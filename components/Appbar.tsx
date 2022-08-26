@@ -58,13 +58,28 @@ const AppbarRoot = styled('nav', {
 	backgroundColor: `rgb($bgOverlayRGB, calc(0.75 * (1 - ${scrollFactor})))`,
 	backdropFilter: `blur(calc(12px * (1 - ${scrollFactor})))`,
 
+	'html[data-show-custom-background] & section > section:nth-child(2)': {
+		backgroundColor: `rgba($bgOverlayRGB, calc(0.75 * ${scrollFactor}))`,
+
+		padding: '0.25rem 0.425rem',
+		borderRadius: 99,
+	},
+
+	[`html[data-show-custom-background] & a:not(${HeroButton})`]: {
+		backgroundColor: `rgba($bgOverlayRGB, calc(0.75 * ${scrollFactor}))`,
+	},
+
+	'html[data-show-custom-background] & svg:first-child': {
+		borderRadius: `calc(6px * ${scrollFactor})`,
+	},
+
 	'body & svg:first-child': {
 		marginRight: 8,
 
 		'& path': {
 			transition: '135ms ease-out',
 			transformOrigin: '50% 50%',
-		}
+		},
 	},
 
 	'body & svg:first-child path:last-child': {
@@ -123,13 +138,14 @@ const AppbarRoot = styled('nav', {
 		justifyContent: 'flex-start',
 
 		'> section': {
-			flex: 1,
+			flex: '1 1 auto',
 			display: 'flex',
 			alignItems: 'center',
 
 			'&:nth-child(2)': {
 				justifyContent: 'center',
-				flex: 2,
+				width: 'auto',
+				flex: '0 1 auto',
 				gap: '1rem',
 			},
 
@@ -147,17 +163,44 @@ const AppbarRoot = styled('nav', {
 	},
 });
 
+const CustomFocusLink = styled('a', {
+	display: 'inline-block',
+	height: 36,
+
+	outline: 'none',
+	cursor: 'pointer',
+	position: 'relative',
+
+	'&::before': {
+		content: '',
+		position: 'absolute',
+
+		top: -8,
+		left: -8,
+		right: -16,
+		bottom: -8,
+
+		borderRadius: 10,
+	},
+
+	'html[data-show-custom-background] &::before': {
+		backgroundColor: `rgba($bgOverlayRGB, calc(0.75 * ${scrollFactor}))`
+	},
+
+	'&:focus-visible::before': {
+		border: 'solid 1px rgba(173, 186, 199, 0.8)',
+		boxShadow: '0 0 0 3px rgba(173, 186, 199, 0.4)',
+	}
+});
+
 /** @type {React.FC} */
 export default function Appbar() {
 	return (
 		<AppbarRoot>
 			<section>
 				<section>
-					<Link href="/">
-						<a
-							data-no-global-style="data-no-global-style"
-							style={{ display: 'inline-block', height: 36 }}
-						>
+					<Link href="/" passHref>
+						<CustomFocusLink>
 							<svg
 								width="36"
 								height="36"
@@ -247,7 +290,7 @@ export default function Appbar() {
 									</clipPath>
 								</defs>
 							</svg>
-						</a>
+						</CustomFocusLink>
 					</Link>
 				</section>
 
@@ -258,7 +301,7 @@ export default function Appbar() {
 					<HeroButton small tertiary>
 						<span>Projects</span>
 					</HeroButton>
-					<Link href="/blog">
+					<Link href="/blog" passHref>
 						<HeroButton as="a" small tertiary>
 							<span>Blog</span>
 						</HeroButton>

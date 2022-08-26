@@ -26,6 +26,8 @@ const FooterSection = styled('div', {
 })
 
 const RootFooterLink = styled('a', {
+	outline: 'none',
+
 	color: '$fgMuted',
 	textDecoration: 'none',
 	transition: 'color 135ms ease-out, top 400ms cubic-bezier(.2,.8,.41,1.25), left 400ms cubic-bezier(.2,.8,.41,1.25)',
@@ -39,7 +41,22 @@ const RootFooterLink = styled('a', {
 		padding: '3px 7px',
 		backgroundColor: '$bgOverlay',
 		borderRadius: 6,
-	}
+	},
+
+	'&:focus::before': {
+		content: '',
+		position: 'absolute',
+
+		top: -3,
+		left: -3,
+		right: -3,
+		bottom: -3,
+
+		borderRadius: 8,
+
+		border: 'solid 1px rgba(173, 186, 199, 0.8)',
+		boxShadow: '0 0 0 3px rgba(173, 186, 199, 0.4)',
+	},
 })
 
 const getRandom = (max: number) => {
@@ -131,7 +148,7 @@ export default function Footer() {
 				</FooterSection>
 				<FooterSection>
 					<b>Hello there</b>
-					<FooterLink special>
+					<FooterLink special href="#">
 						Click me
 					</FooterLink>
 				</FooterSection>

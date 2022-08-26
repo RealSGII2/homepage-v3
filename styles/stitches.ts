@@ -40,6 +40,7 @@ export const {
 		},
 		fonts: {
 			default: "'Titillium Web', sans-serif",
+			monospace: "'IBM Plex Mono', monospace",
 		},
 	},
 });
@@ -63,8 +64,10 @@ const backgroundInKeyframes = keyframes({
 });
 
 export const globalStyles = globalCss({
-	'@import':
+	'@import': [
 		"url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&display=swap')",
+		"url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap')",
+	],
 
 	'html, body': {
 		width: '100%',
@@ -96,8 +99,6 @@ export const globalStyles = globalCss({
 
 			zIndex: -1,
 
-			transform: `translateY(calc((1 - ${viewportScrollFactor}) * -180px))`,
-
 			animation: `350ms forwards`,
 		},
 
@@ -105,13 +106,17 @@ export const globalStyles = globalCss({
 			backgroundImage: "url('/trees.jpeg')",
 			backgroundPosition: 'left',
 			animationName: backgroundInKeyframes,
+
 			opacity: `calc(0.25 * ${viewportScrollFactor})`,
+			transform: `translateY(calc((1 - ${viewportScrollFactor}) * -180px))`,
 		},
 
 		'&::after': {
 			backgroundImage: 'var(--custom-background)',
 			backgroundPosition: 'center center',
 			animationName: backgroundOutKeyframes,
+
+			transform: `scale(1.25) translateY(calc(75px + (1 - ${viewportScrollFactor}) * -180px))`,
 		},
 	},
 
@@ -141,5 +146,39 @@ export const globalStyles = globalCss({
 		backgroundColor: '$brandDefault',
 		backgroundImage: brandGradient,
 		color: '$bgDefault',
+	},
+
+	'[data-markdown]': {
+		'& *:not(pre) > code': {
+			fontFamily: '$monospace',
+
+			display: 'inline-block',
+			padding: '0.1em 0.3em',
+
+			backgroundColor: 'rgba(0, 0, 0, 0.2)',
+			borderRadius: 6,
+		},
+
+		'& pre': {
+			fontFamily: '$monospace',
+
+			padding: '1rem',
+
+			backgroundColor: 'rgba(0, 0, 0, 0.2)',
+			borderRadius: 6,
+		},
+
+		'& a:not([data-override-global-styles])': {
+			color: '$brandDefault',
+			textDecoration: 'none',
+
+			boxShadow: '0 2px $colors$brandMuted',
+
+			transition: '135ms ease-out',
+
+			'&:hover': {
+				boxShadow: '0 3px $colors$brandDefault',
+			},
+		},
 	},
 });

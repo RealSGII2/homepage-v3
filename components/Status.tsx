@@ -90,10 +90,24 @@ const MusicIcon = styled('svg', {
 	},
 });
 
+type StatusProps = {
+	overrideState?: string;
+	overrideMusicDetails?: {
+		title: string;
+		artist: string;
+		url: string;
+	};
+};
+
 /** @type {React.FC} */
-export default function Status() {
-	const [state, setState] = useState<any>('default');
-	const [spotifyData, setSpotifyData] = useState<any>();
+export default function Status({
+	overrideState,
+	overrideMusicDetails,
+}: StatusProps) {
+	const [state, setState] = useState<any>(overrideState ?? 'default');
+	const [spotifyData, setSpotifyData] = useState<any>(
+		overrideMusicDetails ?? undefined
+	);
 
 	const workEndsAt = useMemo(() => new Date(), []);
 	workEndsAt.setUTCHours(20, 55);
@@ -110,6 +124,8 @@ export default function Status() {
 
 	// Here we check for the state
 	useEffect(() => {
+		if (overrideState) return;
+
 		const updateStatus = async () => {
 			const currentTime = new Date();
 			const hours = currentTime.getUTCHours();
@@ -229,8 +245,28 @@ export default function Status() {
 	if (state == 'music') statusProps.href = spotifyData.url;
 
 	return (
-		<StatusRoot variant={state} {...statusProps}>
+		<StatusRoot
+			variant={state}
+			data-override-global-styles
+			{...statusProps}
+		>
 			{content}
 		</StatusRoot>
 	);
 }
+
+export const DisplayMusicIcon = () => {
+	return (
+		<MusicIcon
+			width="64"
+			height="64"
+			viewBox="0 0 16 16"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M2 2V14" />
+			<path d="M6 2V14" />
+			<path d="M10 2V14" />
+			<path d="M14 2V14" />
+		</MusicIcon>
+	);
+};

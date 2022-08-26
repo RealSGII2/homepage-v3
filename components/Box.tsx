@@ -26,6 +26,20 @@ const Box = styled('div', {
 			true: {
 				display: 'flex',
 				gap: '1rem',
+			},
+		},
+		centerContent: {
+			true: {
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+			},
+		},
+		blogDisplay: {
+			true: {
+				backgroundColor: '$bgDefault',
+				borderRadius: 8,
+				padding: '2rem',
 			}
 		}
 	},

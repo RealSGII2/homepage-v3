@@ -1,0 +1,145 @@
+---
+title: SVG Animations in CSS Without Fancy Math
+description: You can animate the d property in SVG using CSS.
+backgroundImage: https://images.unsplash.com/photo-1505685296765-3a2736de412f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80
+---
+
+So, on my homepage, I feature a status component. When I'm listening to music outside of work hours, it shows my current song.
+
+<Box centerContent blogDisplay>
+    <Status
+        overrideState="music"
+        overrideMusicDetails={{
+            title: 'Original Song Name',
+            artist: 'Original Band Name',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        }}
+    />
+</Box>
+
+The way I did the music icon is actually pretty interesting. When searching for ways to make it,
+I discovered that the `d` property can be animated using CSS. This is a much easier solution for simple things,
+compared to using stroke dash arrays. Those require math and are generally unfriendly work with without JavaScript.
+
+`d` is an [SVG presentation attribute](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/Presentation 'Read more about SVG presentation attributes on MDN Web Documentation'),
+which is why you can use it in CSS. It accepts either `none` or a `path(<string>)` function.
+You'd simply just insert the path string as you would for `d`, something like: `path("M2 2V14")`.
+
+# Making the Music Bars Using the `d` Property
+
+We have our SVG file for the music bars:
+
+```svg
+<svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="c-gyMDnL">
+    <path d="M2 2V14"></path>
+    <path d="M6 2V14"></path>
+    <path d="M10 2V14"></path>
+    <path d="M14 2V14"></path>
+</svg>
+```
+
+Let's write an animation for our paths. Select your language below to see the code.
+
+::::tabs{defaultValue=css}
+:::tabs-header
+::tab-button[CSS]{value=css}
+::tab-button[SCSS]{value=scss}
+:::
+
+:::tab{value=css}
+Each path has a different d code (the first command, i.e. `M2`), so we'll have to write each path's animation.
+You can use a preprocessor like Sass to keep your code [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself 'What is DRY code?').
+
+```css
+@keyframes firstPathAnimation {
+    from {
+        d: path('M2 2V14');
+    }
+    to {
+        d: path('M2 7V9');
+    }
+}
+
+@keyframes secondPathAnimation {
+    from {
+        d: path('M6 2V14');
+    }
+    to {
+        d: path('M6 7V9');
+    }
+}
+
+@keyframes thirdPathAnimation {
+    from {
+        d: path('M10 2V14');
+    }
+    to {
+        d: path('M10 7V9');
+    }
+}
+
+@keyframes fourthPathAnimation {
+    from {
+        d: path('M14 2V14');
+    }
+    to {
+        d: path('M14 7V9');
+    }
+}
+
+svg path:nth-child(1) {
+    animation: firstPathAnimation 400ms linear alternate infinite;
+}
+
+svg path:nth-child(2) {
+    animation: secondPathAnimation 400ms linear alternate infinite 133ms;
+}
+
+svg path:nth-child(3) {
+    animation: thirdPathAnimation 400ms linear alternate infinite 237ms;
+}
+
+svg path:nth-child(4) {
+    animation: fourthPathAnimation 400ms linear alternate infinite 87ms;
+}
+```
+
+:::
+
+:::tab{value=scss}
+Each path has a different d code (the first command, i.e. `M2`), so we can use a loop.
+
+```scss
+// These are the delays for each bar
+$delays: 0ms, 133ms, 237ms, 87ms;
+
+@for $i from 0 through 3 {
+    @keyframes animation {
+        from {
+            d: path('M#{2 + $i * 4} 2V14');
+        }
+        to {
+            d: path('M#{2 + $i * 4} 7V9');
+        }
+    }
+
+    svg path:nth-child(#{$i + 1}) {
+        animation: animation
+            400ms
+            linear
+            alternate
+            infinite
+            #{nth($delays, $i + 1)};
+    }
+}
+```
+:::
+::::
+
+## Final Result
+
+<Box centerContent blogDisplay>
+    <DisplayMusicIcon />
+</Box>
+
+Photo credit to Nick Karvounis on [Unsplash](https://unsplash.com/photos/TkZYCXmrKK4 "View original image")
