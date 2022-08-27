@@ -1,0 +1,175 @@
+---
+title: The Building of wwise.dev
+description: An explanation of how I built this website.
+backgroundImage: https://images.unsplash.com/photo-1593720219276-0b1eacd0aef4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1461&q=80
+---
+
+I'm proud of this website. The main reasons why I built it are:
+- To showcase my work
+- To provide an index of my projects intended for public use
+- To give a description about me and my skills
+- To showcase my design skills
+- To show off my own code
+
+In this post, I'll describe the tools I used to build it, the inspiration, and the though process behind it.
+
+# Frameworks and Languages
+
+This website was built in TSX, using [React.js 18.2.0](https://www.npmjs.com/package/react/v/18.2.0 "See React.js version 18.2.0 on NPM").
+I use a framework built on top of React called Next.js. Next provides the common requirements needed in applications, such as routing
+and data fetching.
+
+## What is Next.js?
+
+First, Next, like [create-react-app](https://create-react-app.dev/), provides the basic process of making a React website.
+It provides compilation, minification, and bundling right out of the box.
+
+However, Next also provides tooling to help optimize and boost your app. For example, static and server rendered pages allow you
+to render a page ahead of time before the client visits it. This is why a page loads in about two milliseconds or so once
+you click a link on this website. Another perk is that these types of rendering also support dynamic content, so even pages
+like my blog pages are still generated on the server.
+
+Next also provides something called client-side navigation. This makes the page transition happen using JavaScript *in your browser*.
+This method allows lightning fast transitions, and is also the reason why the pages don't flash when transitioning between them.
+
+You can test this out by changing the background of one page. When you navigate to a different page, it stays the same!
+
+:::hero-image
+![An example of client-sided routing in action](https://nextjs.org/static/images/learn/navigate-between-pages/client-side.gif)
+:::
+
+## Styling and components
+
+To prevent myself from re-inventing the wheel, some components are taken from
+[Radix's Primitives](https://www.radix-ui.com/ "See Radix's Primitives"). I use [Radix's Stitches](https://stitches.dev/ "See stitches")
+for most styling.
+
+## Other Languages
+
+I write my blog using MDX. MDX is Markdown combined with JSX, essentially allowing you to use React components in Markdown.
+This allows you to have extended, interactive Markdown. Prism is used for syntax highlighting, and extended functionality is provided
+by [remark-directive](https://www.npmjs.com/package/remark-directive/v/2.0.1 "See remark directive version 2.0.1 on NPM").
+
+# Website inspiration
+
+Colors and branding were inspired by [New View](https://nvu.io/en/ "See New View's website"). Additional colors were taken from
+[GitHub's primer design system](https://primer.style/primitives/colors "See Primer's primitive colors").
+Most icons are from [Primer's octicons](https://primer.style/octicons/ "See Primer's Octicons").
+
+Hero buttons were inspired by [Strapi's buttons](https://strapi.io/ "See Strapi's website"). Although, admittedly,
+after I made the designs, I've noticed that the designs were alarmingly similar to
+[HERE's branding and hero buttons](https://www.here.com/ "See HERE's website").
+
+The layout and content were inspired from both [Jahir Fiquitiva's](https://jahir.dev/ "See Jahir's portfolio") and
+[Justin Kruit's](https://justinkruit.com/ "See Justin's portfolio") portfolios.
+
+# Design and Components
+
+I wanted a simple, minimalistic, modern, and accessible website, with fun and unique elements to it.
+
+Some of the elements I've included (so far) are:
+
+## Status
+
+This element (found on the homepage) displays my current activity. It'll tell you if I'm busy, if I'm asleep, or what song
+I'm listening to.
+
+{/* ### Actual Component
+
+<Box centerContent blogDisplay>
+    <Status />
+</Box>
+
+### Music State
+
+<Box centerContent blogDisplay hasFooter>
+    <Status
+        overrideState="music"
+        overrideMusicDetails={{
+            title: 'Original Song Name',
+            artist: 'Original Band Name',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        }}
+    />
+</Box>
+
+::::note
+**Fun fact:**
+
+I've written a post about the unique way I made the music icon in the Status component.
+[Read it here.](/blog/svg-animations-css)
+
+Also, you can actually click the status when a song is playing to view it on Spotify or YouTube.
+::: */}
+
+:::::tabs{defaultValue=current}
+:::tabs-header{offset=true}
+::tab-button[Current State]{value=current}
+::tab-button[Asleep]{value=asleep}
+::tab-button[Busy]{value=busy}
+::tab-button[Idle]{value=idle}
+::tab-button[Listening To Music]{value=music}
+:::
+
+:::tab{value=current}
+<Box centerContent blogDisplay hasHeader>
+    <Status />
+</Box>
+:::
+
+:::tab{value=asleep}
+<Box centerContent blogDisplay hasHeader>
+    <Status
+        overrideState="asleep"
+    />
+</Box>
+:::
+
+::::tab{value=busy}
+<Box centerContent blogDisplay hasFooter hasHeader>
+    <Status
+        overrideState="work"
+    />
+</Box>
+
+:::note
+**Fun fact:**
+
+The time displayed in this is actually in your local time, presented how your country nationally displays it.
+For example, in the U.S., it would say `3:55 PM`, but in the U.K., it would say `15:55`.
+:::
+::::
+
+:::tab{value=idle}
+<Box centerContent blogDisplay hasHeader>
+    <Status
+        overrideState="default"
+    />
+</Box>
+:::
+
+::::tab{value=music}
+<Box centerContent blogDisplay hasFooter hasHeader>
+    <Status
+        overrideState="music"
+        overrideMusicDetails={{
+            title: 'Original Song Name',
+            artist: 'Original Band Name',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        }}
+    />
+</Box>
+
+:::note
+**Fun fact:**
+
+I've written a post about the unique way I made the music icon in the Status component.
+[Read it here.](/blog/svg-animations-css)
+
+Also, you can actually click the status when a song is playing to view it on Spotify or YouTube.
+:::
+::::
+:::::
+
+
+Photo credit to Ferenc Almasi on [Unsplash](https://unsplash.com/photos/c8h0n7fSTqs 'View original image')

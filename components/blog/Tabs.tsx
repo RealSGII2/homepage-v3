@@ -10,6 +10,14 @@ const List = styled(TabsPrimitive.List, {
 	display: 'flex',
 	gap: '0.5rem',
 	padding: '1rem 1rem 0',
+
+	variants: {
+		offset: {
+			true: {
+				paddingBottom: '1rem',
+			}
+		}
+	}
 });
 
 const Trigger = styled(TabsPrimitive.Trigger, {

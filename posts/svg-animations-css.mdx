@@ -6,7 +6,7 @@ backgroundImage: https://images.unsplash.com/photo-1505685296765-3a2736de412f?ix
 
 So, on my homepage, I feature a status component. When I'm listening to music outside of work hours, it shows my current song.
 
-<Box centerContent blogDisplay>
+<Box centerContent blogDisplay hasFooter>
     <Status
         overrideState="music"
         overrideMusicDetails={{
@@ -16,6 +16,12 @@ So, on my homepage, I feature a status component. When I'm listening to music ou
         }}
     />
 </Box>
+
+:::note
+    **Fun fact:**
+
+    You can actually click the status when a song is playing to view it on Spotify or YouTube.
+:::
 
 The way I did the music icon is actually pretty interesting. When searching for ways to make it,
 I discovered that the `d` property can be animated using CSS. This is a much easier solution for simple things,
@@ -133,6 +139,7 @@ $delays: 0ms, 133ms, 237ms, 87ms;
     }
 }
 ```
+
 :::
 ::::
 
@@ -142,4 +149,4 @@ $delays: 0ms, 133ms, 237ms, 87ms;
     <DisplayMusicIcon />
 </Box>
 
-Photo credit to Nick Karvounis on [Unsplash](https://unsplash.com/photos/TkZYCXmrKK4 "View original image")
+Photo credit to Nick Karvounis on [Unsplash](https://unsplash.com/photos/TkZYCXmrKK4 'View original image')

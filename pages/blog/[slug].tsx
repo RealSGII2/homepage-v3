@@ -19,15 +19,43 @@ import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 import remarkPrism from 'remark-prism';
 import Tabs from 'components/blog/Tabs';
+import HeroButton from 'components/HeroButton';
+
+const heroImage = styled(Box, {
+	borderRadius: 8,
+	boxShadow: '0 8px 24px rgb(28 33 40 / 50%)',
+
+	width: 'fit-content',
+	display: 'block',
+	margin: '3rem auto',
+
+	overflow: 'hidden',
+
+	'& > *': {
+		margin: '0',
+	},
+
+	'& img': {
+		display: 'block',
+	}
+});
 
 const components = {
 	Status,
 	DisplayMusicIcon,
 	Box,
-	'tabs': Tabs.Root,
+	HeroButton,
+	tabs: Tabs.Root,
 	'tabs-header': Tabs.List,
 	'tab-button': Tabs.Trigger,
 	tab: Tabs.Content,
+	note: ({ variant, ...others }: any) => {
+		return <Box note={variant ?? 'default'} {...others} />;
+	},
+	'blog-display': ({ props }: any) => {
+		return <Box centerContent blogDisplay hasFooter {...props} />;
+	},
+	'hero-image': heroImage,
 };
 
 const ArticleBody = styled(Box, {
